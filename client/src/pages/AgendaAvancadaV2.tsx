@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { DndContext, DragEndEvent, DragOverlay, useDraggable, useDroppable } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, DragOverlay, useDraggable, useDroppable, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { 
   useConsultasPorPeriodo, 
   useUtentes, 
@@ -83,9 +83,12 @@ function ConsultaCard({ consulta, utente, onClick }: any) {
         STATUS_COLORS[consulta.status],
         isDragging && "opacity-50 scale-95"
       )}
-      onClick={onClick}
       {...listeners}
       {...attributes}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick?.(e);
+      }}
     >
       <div className="flex items-start gap-1">
         <GripVertical className="w-3 h-3 opacity-50 flex-shrink-0 mt-0.5" />
@@ -140,6 +143,15 @@ function HorarioSlot({ dia, hora, onClick, children }: any) {
 
 export default function AgendaAvancadaV2() {
   const queryClient = useQueryClient();
+  
+  // Configurar sensores para evitar conflito entre clique e drag
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Só ativa o drag se mover 8 pixels
+      },
+    })
+  );
   const [viewMode, setViewMode] = useState<ViewMode>("week");
   const [dataAtual, setDataAtual] = useState(new Date());
   const [modalNovaConsulta, setModalNovaConsulta] = useState(false);
@@ -407,7 +419,7 @@ export default function AgendaAvancadaV2() {
   const estatisticasData = estatisticas as any;
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
         {/* Header */}
         <div className="mb-6">
