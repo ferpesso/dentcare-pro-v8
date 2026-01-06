@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import DashboardLayout from "./components/DashboardLayout";
 import Home from "./pages/Home";
 import Utentes from "./pages/Utentes";
 import UtenteDetail from "./pages/UtenteDetail";
@@ -22,26 +23,28 @@ import Periodontograma from "./pages/Periodontograma";
 
 function Router() {
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/utentes"} component={Utentes} />
-      <Route path={"/utentes/:id"} component={UtenteDetail} />
-      <Route path={"/agenda"} component={AgendaAvancadaV2} />
-      <Route path={"/consultas"} component={AgendaAvancadaV2} />
-      <Route path={"/faturacao"} component={Faturacao} />
-      <Route path={"/tratamentos"} component={Tratamentos} />
-      <Route path={"/periodontograma"} component={Periodontograma} />
-      <Route path={"/prescricoes"} component={PrescricoesPage} />
-      <Route path={"/orcamentos"} component={Orcamentos} />
-      <Route path={"/relatorios"} component={Relatorios} />
-      <Route path={"/stocks"} component={Stocks} />
-      <Route path={"/lembretes"} component={Lembretes} />
-      <Route path={"/pem"} component={PEM} />
-      <Route path={"/analise-ia"} component={AnaliseRadiografica} />
-      <Route path={"/seguranca"} component={Seguranca} />
-      <Route path={"/404"} component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+    <DashboardLayout>
+      <Switch>
+        <Route path={"/"} component={Home} />
+        <Route path={"/utentes"} component={Utentes} />
+        <Route path={"/utentes/:id"} component={UtenteDetail} />
+        <Route path={"/agenda"} component={AgendaAvancadaV2} />
+        <Route path={"/consultas"} component={AgendaAvancadaV2} />
+        <Route path={"/faturacao"} component={Faturacao} />
+        <Route path={"/tratamentos"} component={Tratamentos} />
+        <Route path={"/periodontograma"} component={Periodontograma} />
+        <Route path={"/prescricoes"} component={PrescricoesPage} />
+        <Route path={"/orcamentos"} component={Orcamentos} />
+        <Route path={"/relatorios"} component={Relatorios} />
+        <Route path={"/stocks"} component={Stocks} />
+        <Route path={"/lembretes"} component={Lembretes} />
+        <Route path={"/pem"} component={PEM} />
+        <Route path={"/analise-ia"} component={AnaliseRadiografica} />
+        <Route path={"/seguranca"} component={Seguranca} />
+        <Route path={"/404"} component={NotFound} />
+        <Route component={NotFound} />
+      </Switch>
+    </DashboardLayout>
   );
 }
 

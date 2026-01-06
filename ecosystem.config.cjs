@@ -2,7 +2,7 @@ module.exports = {
   apps: [{
     name: 'dentcare-pro',
     script: 'dist/index.js',
-    cwd: '/home/ubuntu/dentcare-pro',
+    cwd: '/home/ubuntu/dentcare-pro-v8',
     instances: 1,
     autorestart: true,
     watch: false,

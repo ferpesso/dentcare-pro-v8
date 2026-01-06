@@ -152,6 +152,21 @@ export const appRouter = router({
   // IA - ASSISTENTE INTELIGENTE
   // ========================================
   ia: router({
+    // Análise de Imagem Dentária (Raio-X, etc)
+    analisarImagem: protectedProcedure
+      .input(
+        z.object({
+          imagemBase64: z.string(),
+          tipoImagem: z.string(),
+          contexto: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        console.log("🔍 [IA] Iniciando análise de imagem...");
+        const { analisarImagemComGemini } = await import("../gemini-image-helper");
+        return await analisarImagemComGemini(input);
+      }),
+
     // Assistente de Diagnóstico
     analisarSintomas: protectedProcedure
       .input(
@@ -309,7 +324,6 @@ export const appRouter = router({
       return await listarConsultas();
     }),
 
-    // Listar por período
     listarPorPeriodo: protectedProcedure
       .input(z.object({ dataInicio: z.string(), dataFim: z.string() }))
       .query(async ({ input }) => {
